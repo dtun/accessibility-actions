@@ -34,4 +34,4 @@ export let menuData = [
     icon: "map-outline",
     title: "Projects",
   },
-];
+] as const;
