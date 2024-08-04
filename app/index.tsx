@@ -7,7 +7,7 @@ import { ListContainer } from "@/components/Themed";
 import { MyMenuView } from "@/components/MyMenuView";
 
 function Main() {
-  let { viewData: menuData } = useData();
+  let { data: menuData } = useData();
   let { top, bottom } = useSafeAreaInsets();
   let { ...sharedValues } = useSharedValues();
 
@@ -15,7 +15,7 @@ function Main() {
     <ListContainer
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
     >
-      <MyMenuView menuData={menuData} />
+      <MyMenuView menuData={menuData.filter((i) => i.checked)} />
       <Controls {...sharedValues} />
     </ListContainer>
   );

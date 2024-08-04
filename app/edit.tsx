@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation } from "expo-router";
+import { Link, useNavigation } from "expo-router";
 import { Platform, StyleSheet } from "react-native";
 
 import { useData } from "@/hooks";
 import { MyMenuEdit } from "@/components/MyMenuEdit";
-import { Text, ListContainer } from "@/components/Themed";
+import { ListContainer } from "@/components/Themed";
 
 function Edit() {
-  let { setOptions, goBack } = useNavigation();
+  let { setOptions } = useNavigation();
   let { data: menuData, setMenuData, toggleMenuItem, saveMenuData } = useData();
 
   useEffect(
     function () {
       setOptions({
         headerRight: () => (
-          <Text onPress={() => saveMenuData().then(goBack)}>Done</Text>
+          <Link href="/" onPress={saveMenuData}>
+            Done
+          </Link>
         ),
       });
     },

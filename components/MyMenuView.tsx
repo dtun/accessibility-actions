@@ -14,6 +14,8 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
 
     return (
       <View
+        accessible
+        accessibilityLabel={title}
         style={[
           styles.listItem,
           isFirst && styles.listItemTop,
@@ -52,9 +54,7 @@ function ListHeaderComponent() {
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>My Music</Text>
-      <Link href="/edit">
-        <Icon name="ellipsis-horizontal-outline" style={styles.icon} />
-      </Link>
+      <Link href="/edit">Edit</Link>
     </View>
   );
 }

@@ -51,7 +51,7 @@ export let toggleMenuItemAtom = atom(
   function (get, set, id: string) {
     let currentData = get(menuDataAtom);
     let newData = currentData.map((item) =>
-      item.id === id ? { ...item, selected: !item.selected } : item
+      item.id === id ? { ...item, checked: !item.checked } : item
     );
     set(menuDataAtom, newData);
   }

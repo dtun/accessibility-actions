@@ -48,7 +48,12 @@ export function Icon(props: IconProps) {
   let colorProp = props.color ?? color;
 
   return (
-    <Ionicons size={24} style={[{ color: colorProp }, style]} {...otherProps} />
+    <Ionicons
+      accessible={false}
+      size={24}
+      style={[{ color: colorProp }, style]}
+      {...otherProps}
+    />
   );
 }
 

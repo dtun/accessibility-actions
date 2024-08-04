@@ -29,11 +29,10 @@ export function useData() {
   let saveMenuData = useSetAtom(saveMenuDataAtom);
   let setMenuData = useSetAtom(setMenuDataAtom);
   let toggleMenuItem = useSetAtom(toggleMenuItemAtom);
-  let viewData = data.filter((d) => d.selected);
 
   useLoadData();
 
-  return { data, setMenuData, toggleMenuItem, saveMenuData, viewData };
+  return { data, setMenuData, toggleMenuItem, saveMenuData };
 }
 
 export function useSharedValues() {

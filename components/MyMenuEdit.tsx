@@ -19,12 +19,15 @@ export function MyMenuEdit({
   let renderItem: RenderItem<MenuItem> = ({
     drag: onLongPress,
     isActive,
-    item: { icon, id, selected, title },
+    item: { icon, id, checked, title },
   }) => {
     let { isFirst, isLast } = getItemData(id, menuData);
 
     return (
       <Pressable
+        accessible
+        accessibilityLabel={title}
+        accessibilityState={{ checked }}
         onLongPress={onLongPress}
         style={[
           styles.listItem,
@@ -36,7 +39,7 @@ export function MyMenuEdit({
         <View style={styles.iconContainer}>
           <Icon
             color={red}
-            name={selected ? "radio-button-on" : "radio-button-off"}
+            name={checked ? "radio-button-on" : "radio-button-off"}
             onPress={() => toggleMenuItem(id)}
             style={styles.iconRadio}
           />

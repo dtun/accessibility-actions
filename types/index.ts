@@ -15,7 +15,7 @@ export type IconName = keyof typeof Ionicons.glyphMap;
 export type MenuItem = {
   id: string;
   icon: IconName;
-  selected: boolean;
+  checked: boolean;
   title: string;
 };
 
