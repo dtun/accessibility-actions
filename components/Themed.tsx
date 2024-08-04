@@ -1,45 +1,87 @@
-/**
- * Learn more about Light and Dark modes:
- * https://docs.expo.io/guides/color-schemes/
- */
+import {
+  Text as DefaultText,
+  View as DefaultView,
+  Pressable as DefaultPressable,
+  ViewStyle,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { Text as DefaultText, View as DefaultView } from 'react-native';
+import { colors } from "@/constants";
+import { useColorScheme } from "@/hooks";
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from './useColorScheme';
-
-type ThemeProps = {
-  lightColor?: string;
-  darkColor?: string;
-};
-
-export type TextProps = ThemeProps & DefaultText['props'];
-export type ViewProps = ThemeProps & DefaultView['props'];
+import type { IconProps, PressableProps, TextProps, ViewProps } from "@/types";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+  colorName: keyof typeof colors.light & keyof typeof colors.dark
 ) {
-  const theme = useColorScheme() ?? 'light';
-  const colorFromProps = props[theme];
+  let theme = useColorScheme() ?? "light";
+  let colorFromProps = props[theme];
 
   if (colorFromProps) {
     return colorFromProps;
   } else {
-    return Colors[theme][colorName];
+    return colors[theme][colorName];
   }
 }
 
 export function Text(props: TextProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  let { style, lightColor, darkColor, ...otherProps } = props;
+  let color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
 export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  let { style, lightColor, darkColor, ...otherProps } = props;
+  let backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function Icon(props: IconProps) {
+  let { style, lightColor, darkColor, ...otherProps } = props;
+  let color = useThemeColor({ light: lightColor, dark: darkColor }, "icon");
+  let colorProp = props.color ?? color;
+
+  return (
+    <Ionicons size={24} style={[{ color: colorProp }, style]} {...otherProps} />
+  );
+}
+
+export function ListContainer(props: ViewProps) {
+  let { style, lightColor, darkColor, ...otherProps } = props;
+  let color = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "listContainer"
+  );
+
+  return <View style={[{ backgroundColor: color }, style]} {...otherProps} />;
+}
+
+export function Pressable(props: PressableProps) {
+  let { style, lightColor, darkColor, ...otherProps } = props;
+  let backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background"
+  );
+
+  return (
+    <DefaultPressable
+      style={({ pressed }) => {
+        let baseStyle: ViewStyle = { backgroundColor };
+        let pressedStyle: ViewStyle = pressed ? {} : {};
+
+        if (typeof style === "function") {
+          return [baseStyle, pressedStyle, style({ pressed })];
+        } else {
+          return [baseStyle, pressedStyle, style];
+        }
+      }}
+      {...otherProps}
+    />
+  );
 }
