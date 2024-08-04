@@ -1,37 +1,46 @@
-export let menuData = [
+import { type MenuItem } from "@/types";
+
+export let menuData: MenuItem[] = [
   {
     id: "1",
-    icon: "map-outline",
-    title: "Pull Requests",
+    icon: "list-outline",
+    selected: true,
+    title: "Playlists",
   },
   {
     id: "2",
-    icon: "star-outline",
-    title: "Starred",
+    icon: "mic-outline",
+    selected: true,
+    title: "Artists",
   },
   {
     id: "3",
-    icon: "alert-circle-outline",
-    title: "Issues",
+    icon: "albums-outline",
+    selected: true,
+    title: "Albums",
   },
   {
     id: "4",
-    icon: "chatbox-outline",
-    title: "Discussions",
+    icon: "musical-note-outline",
+    selected: true,
+    title: "Songs",
   },
   {
     id: "5",
-    icon: "apps-outline",
-    title: "Repositories",
+    icon: "library-outline",
+    selected: true,
+    title: "Genres",
   },
   {
     id: "6",
-    icon: "home-outline",
-    title: "Organizations",
+    icon: "grid-outline",
+    selected: true,
+    title: "Compilations",
   },
   {
     id: "7",
-    icon: "map-outline",
-    title: "Projects",
+    icon: "cloud-download-outline",
+    selected: true,
+    title: "Downloaded",
   },
-] as const;
+];
