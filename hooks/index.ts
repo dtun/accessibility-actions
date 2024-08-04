@@ -1,6 +1,6 @@
-import { useCallback, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { useSharedValue } from "react-native-reanimated";
 
 import {
@@ -36,13 +36,20 @@ export function useData() {
 }
 
 export function useSharedValues() {
+  let [value, setValue] = useState(50);
   let [playing, setPlaying] = useState(false);
-  let togglePlaying = () => setPlaying((prev) => !prev);
   let min = useSharedValue(0);
   let max = useSharedValue(100);
-  let progress = useSharedValue(50);
+  let progress = useSharedValue(value);
 
-  return { min, max, progress, playing, togglePlaying };
+  let togglePlaying = () => setPlaying((prev) => !prev);
+
+  let updateValue = (newValue: number) => {
+    setValue(newValue);
+    progress.value = newValue;
+  };
+
+  return { min, max, progress, playing, togglePlaying, setValue, updateValue };
 }
 
 export { useColorScheme } from "react-native";

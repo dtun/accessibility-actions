@@ -12,20 +12,33 @@ export function Controls({
   playing = false,
   progress,
   togglePlaying,
+  updateValue,
 }: {
   min: SharedNumber;
   max: SharedNumber;
   playing: boolean;
   progress: SharedNumber;
   togglePlaying: () => void;
+  updateValue: (value: number) => void;
 }) {
   return (
     <View style={styles.container}>
-      <View style={styles.volume}>
+      <View
+        accessible
+        accessibilityLabel="Volume"
+        accessibilityRole="adjustable"
+        accessibilityValue={{
+          min: min.value,
+          max: max.value,
+          now: progress.value,
+        }}
+        style={styles.volume}
+      >
         <Icon name="volume-off" style={styles.iconVolumeLeft} />
         <Slider
           minimumValue={min}
           maximumValue={max}
+          onSlidingComplete={updateValue}
           progress={progress}
           renderBubble={() => null}
           snapToStep
@@ -36,6 +49,9 @@ export function Controls({
       </View>
       <View style={styles.buttons}>
         <Icon
+          accessible
+          accessibilityLabel="Play"
+          accessibilityRole="button"
           color={red}
           name={playing ? "pause-circle-outline" : "play-circle-outline"}
           onPress={togglePlaying}
