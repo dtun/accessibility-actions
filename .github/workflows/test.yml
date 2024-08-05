@@ -1,0 +1,30 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: 🏗 Checkout
+        uses: actions/checkout@v3
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          cache: npm
+
+      - name: 🏗 Restore Cache
+        uses: actions/cache@v3
+        id: node-modules-cache
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-node-modules-cache-${{ hashFiles('package-lock.json') }}
+
+      - name: 📦 Install
+        run: npm i
+
+      - name: ✅ Test
+        run: npm run testFinal
