@@ -35,6 +35,7 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
       contentContainerStyle={styles.listContent}
       data={menuData}
       ItemSeparatorComponent={ItemSeparatorComponent}
+      ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
       renderItem={renderItem}
       style={styles.list}
@@ -54,9 +55,15 @@ function ListHeaderComponent() {
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>My Music</Text>
-      <Link href="/edit">Edit</Link>
+      <Link href="/edit">
+        <Text>Edit</Text>
+      </Link>
     </View>
   );
+}
+
+function ListFooterComponent() {
+  return <View style={styles.footer}></View>;
 }
 
 let styles = StyleSheet.create({
@@ -94,7 +101,7 @@ let styles = StyleSheet.create({
     width: "100%",
   },
   icon: {
-    padding: 16,
+    padding: 8,
   },
   iconContainer: {
     flexDirection: "row",
@@ -106,7 +113,8 @@ let styles = StyleSheet.create({
     flexDirection: "row",
     width: "96%",
     alignSelf: "center",
-    height: 64,
+    height: 48,
+    padding: 4,
   },
   listItemTop: {
     borderTopLeftRadius: 8,
@@ -129,5 +137,9 @@ let styles = StyleSheet.create({
     height: 1,
     alignSelf: "center",
     backgroundColor: "#e0e0e0",
+  },
+  footer: {
+    backgroundColor: "transparent",
+    height: 40,
   },
 });

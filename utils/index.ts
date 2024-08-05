@@ -57,6 +57,24 @@ export let toggleMenuItemAtom = atom(
   }
 );
 
+export let moveMenuItemAtom = atom(
+  null, // read function (null because we don't need to read)
+  function (get, set, id: string, direction: "up" | "down") {
+    let currentData = get(menuDataAtom);
+    let index = currentData.findIndex((item) => item.id === id);
+    let newIndex = direction === "up" ? index - 1 : index + 1;
+
+    if (newIndex < 0 || newIndex >= currentData.length) return;
+
+    let newData = [...currentData];
+
+    newData.splice(index, 1);
+    newData.splice(newIndex, 0, currentData[index]);
+
+    set(menuDataAtom, newData);
+  }
+);
+
 export let setMenuDataAtom = atom(
   null, // read function (null because we don't need to read)
   function (_get, set, newData: MenuData) {

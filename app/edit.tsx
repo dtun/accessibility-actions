@@ -5,18 +5,24 @@ import { Platform, StyleSheet } from "react-native";
 
 import { useData } from "@/hooks";
 import { MyMenuEdit } from "@/components/MyMenuEdit";
-import { ListContainer } from "@/components/Themed";
+import { ListContainer, Text } from "@/components/Themed";
 
 function Edit() {
   let { setOptions } = useNavigation();
-  let { data: menuData, setMenuData, toggleMenuItem, saveMenuData } = useData();
+  let {
+    data: menuData,
+    setMenuData,
+    toggleMenuItem,
+    saveMenuData,
+    moveMenuItem,
+  } = useData();
 
   useEffect(
     function () {
       setOptions({
         headerRight: () => (
           <Link href="/" onPress={saveMenuData}>
-            Done
+            <Text>Done</Text>
           </Link>
         ),
       });
@@ -32,6 +38,7 @@ function Edit() {
           menuData={menuData}
           setMenuData={setMenuData}
           toggleMenuItem={toggleMenuItem}
+          moveMenuItem={moveMenuItem}
         />
       </ListContainer>
     </>

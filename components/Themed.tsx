@@ -50,7 +50,7 @@ export function Icon(props: IconProps) {
   return (
     <Ionicons
       accessible={false}
-      size={24}
+      size={20}
       style={[{ color: colorProp }, style]}
       {...otherProps}
     />

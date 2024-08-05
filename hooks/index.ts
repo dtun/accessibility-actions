@@ -9,6 +9,7 @@ import {
   setMenuDataAtom,
   loadDataAtom,
   saveMenuDataAtom,
+  moveMenuItemAtom,
 } from "@/utils";
 
 export function useLoadData() {
@@ -29,10 +30,11 @@ export function useData() {
   let saveMenuData = useSetAtom(saveMenuDataAtom);
   let setMenuData = useSetAtom(setMenuDataAtom);
   let toggleMenuItem = useSetAtom(toggleMenuItemAtom);
+  let moveMenuItem = useSetAtom(moveMenuItemAtom);
 
   useLoadData();
 
-  return { data, setMenuData, toggleMenuItem, saveMenuData };
+  return { data, setMenuData, toggleMenuItem, saveMenuData, moveMenuItem };
 }
 
 export function useSharedValues() {
@@ -45,6 +47,9 @@ export function useSharedValues() {
   let togglePlaying = () => setPlaying((prev) => !prev);
 
   let updateValue = (newValue: number) => {
+    if (newValue < min.value) newValue = min.value;
+    if (newValue > max.value) newValue = max.value;
+
     setValue(newValue);
     progress.value = newValue;
   };

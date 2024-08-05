@@ -25,12 +25,28 @@ export function Controls({
     <View style={styles.container}>
       <View
         accessible
+        accessibilityActions={[
+          { name: "increment", label: "increment" },
+          { name: "decrement", label: "decrement" },
+        ]}
         accessibilityLabel="Volume"
         accessibilityRole="adjustable"
         accessibilityValue={{
           min: min.value,
           max: max.value,
           now: progress.value,
+        }}
+        onAccessibilityAction={({ nativeEvent: { actionName } }) => {
+          switch (actionName) {
+            case "increment":
+              updateValue(progress.value + 10);
+              break;
+            case "decrement":
+              updateValue(progress.value - 10);
+              break;
+            default:
+              break;
+          }
         }}
         style={styles.volume}
       >

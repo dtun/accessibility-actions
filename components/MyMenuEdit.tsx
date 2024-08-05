@@ -9,10 +9,12 @@ import type { MenuItem, MenuData } from "@/types";
 
 export function MyMenuEdit({
   menuData,
+  moveMenuItem,
   setMenuData,
   toggleMenuItem,
 }: {
   menuData: MenuData;
+  moveMenuItem: (id: string, direction: "up" | "down") => void;
   setMenuData: (data: MenuData) => void;
   toggleMenuItem: (id: string) => void;
 }) {
@@ -26,9 +28,29 @@ export function MyMenuEdit({
     return (
       <Pressable
         accessible
+        accessibilityActions={[
+          { name: "activate", label: "Toggle checked state" },
+          { name: "moveUp", label: "Move item up" },
+          { name: "moveDown", label: "Move item down" },
+        ]}
+        accessibilityHint="Double tap to toggle, swipe up or down for more actions"
         accessibilityLabel={title}
         accessibilityState={{ checked }}
+        onAccessibilityAction={({ nativeEvent: { actionName } }) => {
+          switch (actionName) {
+            case "activate":
+              toggleMenuItem(id);
+              break;
+            case "moveUp":
+              moveMenuItem(id, "up");
+              break;
+            case "moveDown":
+              moveMenuItem(id, "down");
+              break;
+          }
+        }}
         onLongPress={onLongPress}
+        onPress={() => toggleMenuItem(id)}
         style={[
           styles.listItem,
           isFirst && styles.listItemTop,
@@ -40,12 +62,13 @@ export function MyMenuEdit({
           <Icon
             color={red}
             name={checked ? "radio-button-on" : "radio-button-off"}
-            onPress={() => toggleMenuItem(id)}
             style={styles.iconRadio}
           />
           <Icon name={icon} style={styles.icon} />
         </View>
-        <Text style={styles.title}>{title}</Text>
+        <Text accessible={false} style={styles.title}>
+          {title}
+        </Text>
         <Icon color={red} name="menu" style={styles.iconRadio} />
       </Pressable>
     );
@@ -94,7 +117,7 @@ let styles = StyleSheet.create({
     width: "100%",
   },
   icon: {
-    padding: 16,
+    padding: 8,
   },
   iconContainer: {
     flexDirection: "row",
@@ -102,14 +125,15 @@ let styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   iconRadio: {
-    padding: 16,
+    padding: 8,
   },
   listItem: {
     alignItems: "center",
     flexDirection: "row",
     width: "96%",
     alignSelf: "center",
-    height: 64,
+    height: 48,
+    padding: 4,
   },
   listItemActive: {
     shadowColor: "#000",
