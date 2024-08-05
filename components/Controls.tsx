@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { Slider } from "react-native-awesome-slider";
 
 import { red, sliderTheme } from "@/constants";
-import { Icon, View } from "@/components/Themed";
+import { Icon, Pressable, View } from "@/components/Themed";
 
 import type { SharedNumber } from "@/types";
 
@@ -64,15 +64,21 @@ export function Controls({
         <Icon name="volume-high" style={styles.iconVolumeRight} />
       </View>
       <View style={styles.buttons}>
-        <Icon
+        <Pressable
           accessible
           accessibilityLabel="Play"
           accessibilityRole="button"
-          color={red}
-          name={playing ? "pause-circle-outline" : "play-circle-outline"}
+          accessibilityValue={{
+            text: playing ? "playing" : "paused",
+          }}
           onPress={togglePlaying}
-          size={40}
-        />
+        >
+          <Icon
+            color={red}
+            name={playing ? "pause-circle-outline" : "play-circle-outline"}
+            size={40}
+          />
+        </Pressable>
       </View>
     </View>
   );

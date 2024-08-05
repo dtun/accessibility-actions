@@ -54,7 +54,7 @@ export function useSharedValues() {
     progress.value = newValue;
   };
 
-  return { min, max, progress, playing, togglePlaying, setValue, updateValue };
+  return { min, max, progress, playing, togglePlaying, updateValue };
 }
 
 export { useColorScheme } from "react-native";
