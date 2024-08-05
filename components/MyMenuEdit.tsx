@@ -161,7 +161,7 @@ let styles = StyleSheet.create({
     width: "96%",
   },
   separator: {
-    width: "80%",
+    width: "100%",
     height: 1,
     alignSelf: "center",
     backgroundColor: "#e0e0e0",
