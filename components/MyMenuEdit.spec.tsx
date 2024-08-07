@@ -21,10 +21,6 @@ function renderMyMenuEdit() {
   );
 }
 
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
 describe("MyMenuEdit", () => {
   it("renders", () => {
     renderMyMenuEdit();

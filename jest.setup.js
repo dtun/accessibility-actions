@@ -16,7 +16,6 @@ beforeAll(() => {
   });
 });
 
-
 afterAll(() => {
   jest.useRealTimers();
   jest.restoreAllMocks();
