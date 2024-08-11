@@ -35,6 +35,7 @@ export function ControlSlider({
         { name: "increment", label: "increment" },
         { name: "decrement", label: "decrement" },
       ]}
+      accessibilityHint="Swipe up or down to adjust volume"
       accessibilityLabel="Volume"
       accessibilityRole="adjustable"
       accessibilityValue={{
