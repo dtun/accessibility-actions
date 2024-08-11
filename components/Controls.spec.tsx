@@ -1,6 +1,6 @@
 import { render, screen, userEvent, fireEvent } from "@/test-utils";
 
-import { useSharedValues } from "@/hooks";
+import { usePlayingState } from "@/hooks";
 
 import { Controls } from "./Controls";
 
@@ -8,9 +8,9 @@ let volumeUpEvent = { actionName: "increment" };
 let volumeDownEvent = { actionName: "decrement" };
 
 function Example() {
-  let { ...sharedValues } = useSharedValues();
+  let { ...playingState } = usePlayingState();
 
-  return <Controls {...sharedValues} />;
+  return <Controls {...playingState} />;
 }
 
 function renderControls() {
@@ -29,8 +29,8 @@ describe("Controls", () => {
 
     expect(volumeSlider).toHaveAccessibleName("Volume");
     expect(volumeSlider).toHaveAccessibilityValue({
-      min: 0,
       max: 100,
+      min: 0,
       now: 50,
     });
 
@@ -68,8 +68,8 @@ describe("Controls", () => {
       });
 
       expect(volumeSlider).toHaveAccessibilityValue({
-        min: 0,
         max: 100,
+        min: 0,
         now: value,
       });
     }
@@ -80,8 +80,8 @@ describe("Controls", () => {
     });
 
     expect(volumeSlider).toHaveAccessibilityValue({
-      min: 0,
       max: 100,
+      min: 0,
       now: 100,
     });
   });
@@ -98,8 +98,8 @@ describe("Controls", () => {
       });
 
       expect(volumeSlider).toHaveAccessibilityValue({
-        min: 0,
         max: 100,
+        min: 0,
         now: value,
       });
     }
@@ -110,8 +110,8 @@ describe("Controls", () => {
     });
 
     expect(volumeSlider).toHaveAccessibilityValue({
-      min: 0,
       max: 100,
+      min: 0,
       now: 0,
     });
   });

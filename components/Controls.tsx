@@ -1,68 +1,25 @@
 import { StyleSheet } from "react-native";
-import { Slider } from "react-native-awesome-slider";
 
-import { red, sliderTheme } from "@/constants";
+import { red } from "@/constants";
 import { Icon, Pressable, View } from "@/components/Themed";
-
-import type { SharedNumber } from "@/types";
+import { ControlSlider } from "@/components/ControlSlider";
 
 export function Controls({
-  min,
-  max,
+  level,
   playing = false,
-  progress,
+  setLevel,
   togglePlaying,
-  updateValue,
 }: {
-  min: SharedNumber;
-  max: SharedNumber;
+  level: number;
+  max?: number;
+  min?: number;
   playing: boolean;
-  progress: SharedNumber;
+  setLevel: (value: number) => void;
   togglePlaying: () => void;
-  updateValue: (value: number) => void;
 }) {
   return (
     <View style={styles.container}>
-      <View
-        accessible
-        accessibilityActions={[
-          { name: "increment", label: "increment" },
-          { name: "decrement", label: "decrement" },
-        ]}
-        accessibilityLabel="Volume"
-        accessibilityRole="adjustable"
-        accessibilityValue={{
-          min: min.value,
-          max: max.value,
-          now: progress.value,
-        }}
-        onAccessibilityAction={({ nativeEvent: { actionName } }) => {
-          switch (actionName) {
-            case "increment":
-              updateValue(progress.value + 10);
-              break;
-            case "decrement":
-              updateValue(progress.value - 10);
-              break;
-            default:
-              break;
-          }
-        }}
-        style={styles.volume}
-      >
-        <Icon name="volume-off" style={styles.iconVolumeLeft} />
-        <Slider
-          minimumValue={min}
-          maximumValue={max}
-          onSlidingComplete={updateValue}
-          progress={progress}
-          renderBubble={() => null}
-          snapToStep
-          style={styles.slider}
-          theme={sliderTheme}
-        />
-        <Icon name="volume-high" style={styles.iconVolumeRight} />
-      </View>
+      <ControlSlider value={level} setValue={setLevel} />
       <View style={styles.buttons}>
         <Pressable
           accessible
@@ -99,21 +56,6 @@ let styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3, // for Android
-  },
-  volume: {
-    flexDirection: "row",
-    width: "100%",
-  },
-  iconVolumeLeft: {
-    marginLeft: 8,
-    marginRight: 24,
-  },
-  iconVolumeRight: {
-    marginRight: 8,
-    marginLeft: 24,
-  },
-  slider: {
-    alignSelf: "center",
   },
   buttons: {
     marginTop: 16,

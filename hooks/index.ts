@@ -37,24 +37,39 @@ export function useData() {
   return { data, setMenuData, toggleMenuItem, saveMenuData, moveMenuItem };
 }
 
-export function useSharedValues() {
-  let [value, setValue] = useState(50);
+export function usePlayingState() {
   let [playing, setPlaying] = useState(false);
-  let min = useSharedValue(0);
-  let max = useSharedValue(100);
-  let progress = useSharedValue(value);
+  let [level, setLevel] = useState(50);
 
   let togglePlaying = () => setPlaying((prev) => !prev);
 
+  return { level, setLevel, playing, togglePlaying };
+}
+
+export function useSliderValues({
+  setValue,
+  value,
+  ...props
+}: {
+  max: number;
+  min: number;
+  setValue: (value: number) => void;
+  value: number;
+}) {
+  let min = useSharedValue(props.min);
+  let max = useSharedValue(props.max);
+  let progress = useSharedValue(value);
+
   let updateValue = (newValue: number) => {
-    if (newValue < min.value) newValue = min.value;
-    if (newValue > max.value) newValue = max.value;
+    if (progress.value === newValue) return; // Values match
+    if (newValue < min.value) newValue = min.value; // Out of bounds
+    if (newValue > max.value) newValue = max.value; // Out of bounds
 
     setValue(newValue);
     progress.value = newValue;
   };
 
-  return { min, max, progress, playing, togglePlaying, updateValue };
+  return { max, min, progress, updateValue };
 }
 
 export { useColorScheme } from "react-native";
