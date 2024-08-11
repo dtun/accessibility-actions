@@ -1,5 +1,4 @@
 import { render, screen, userEvent, fireEvent } from "@/test-utils";
-
 import { usePlayingState } from "@/hooks";
 
 import { Controls } from "./Controls";
