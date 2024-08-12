@@ -7,8 +7,8 @@ import { Icon, View } from "@/components/Themed";
 
 import type { AccessibilityActionEvent } from "react-native";
 
-export let incrementAction = { name: "increment", label: "increment" };
-export let decrementAction = { name: "decrement", label: "decrement" };
+let incrementAction = { name: "increment", label: "increment" };
+let decrementAction = { name: "decrement", label: "decrement" };
 
 export function ControlSlider({
   max = 100,
@@ -32,10 +32,46 @@ export function ControlSlider({
     setValue,
     value,
   });
-  let onAccessibilityAction = useEvent(function (e: AccessibilityActionEvent) {
-    let {
-      nativeEvent: { actionName },
-    } = e;
+  let onAccessibilityAction = useOnAccessibilityAction({
+    updateValue,
+    value,
+  });
+
+  return (
+    <View
+      accessible
+      accessibilityActions={[incrementAction, decrementAction]}
+      accessibilityHint="Swipe up or down to adjust volume"
+      accessibilityLabel="Volume"
+      accessibilityRole="adjustable"
+      accessibilityValue={{ max, min, now: value }}
+      onAccessibilityAction={onAccessibilityAction}
+      style={styles.volume}
+    >
+      <Icon name="volume-off" style={styles.iconVolumeLeft} />
+      <Slider
+        maximumValue={maximumValue}
+        minimumValue={minimumValue}
+        onSlidingComplete={updateValue}
+        progress={progress}
+        snapToStep
+        style={styles.slider}
+        theme={sliderTheme}
+      />
+      <Icon name="volume-high" style={styles.iconVolumeRight} />
+    </View>
+  );
+}
+
+function useOnAccessibilityAction({
+  updateValue,
+  value,
+}: {
+  updateValue: (value: number) => void;
+  value: number;
+}) {
+  return useEvent(function (e: AccessibilityActionEvent) {
+    let actionName = e.nativeEvent.actionName;
 
     switch (actionName) {
       case incrementAction.name:
@@ -48,36 +84,6 @@ export function ControlSlider({
         break;
     }
   });
-
-  return (
-    <View
-      accessible
-      accessibilityActions={[incrementAction, decrementAction]}
-      accessibilityHint="Swipe up or down to adjust volume"
-      accessibilityLabel="Volume"
-      accessibilityRole="adjustable"
-      accessibilityValue={{
-        min,
-        max,
-        now: value,
-      }}
-      onAccessibilityAction={onAccessibilityAction}
-      style={styles.volume}
-    >
-      <Icon name="volume-off" style={styles.iconVolumeLeft} />
-      <Slider
-        maximumValue={maximumValue}
-        minimumValue={minimumValue}
-        onSlidingComplete={updateValue}
-        progress={progress}
-        renderBubble={() => null}
-        snapToStep
-        style={styles.slider}
-        theme={sliderTheme}
-      />
-      <Icon name="volume-high" style={styles.iconVolumeRight} />
-    </View>
-  );
 }
 
 let styles = StyleSheet.create({
