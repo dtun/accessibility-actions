@@ -2,9 +2,10 @@ import { render, screen, userEvent, fireEvent } from "@/test-utils";
 import { usePlayingState } from "@/hooks";
 
 import { Controls } from "./Controls";
+import { incrementAction, decrementAction } from "./ControlSlider";
 
-let volumeUpEvent = { actionName: "increment" };
-let volumeDownEvent = { actionName: "decrement" };
+let volumeUpEvent = { actionName: incrementAction.name };
+let volumeDownEvent = { actionName: decrementAction.name };
 
 function Example() {
   let { ...playingState } = usePlayingState();

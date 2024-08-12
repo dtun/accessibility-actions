@@ -2,8 +2,13 @@ import { StyleSheet } from "react-native";
 import { Slider } from "react-native-awesome-slider";
 
 import { sliderTheme } from "@/constants";
-import { useSliderValues } from "@/hooks";
+import { useEvent, useSliderValues } from "@/hooks";
 import { Icon, View } from "@/components/Themed";
+
+import type { AccessibilityActionEvent } from "react-native";
+
+export let incrementAction = { name: "increment", label: "increment" };
+export let decrementAction = { name: "decrement", label: "decrement" };
 
 export function ControlSlider({
   max = 100,
@@ -27,14 +32,27 @@ export function ControlSlider({
     setValue,
     value,
   });
+  let onAccessibilityAction = useEvent(function (e: AccessibilityActionEvent) {
+    let {
+      nativeEvent: { actionName },
+    } = e;
+
+    switch (actionName) {
+      case incrementAction.name:
+        updateValue(value + 10);
+        break;
+      case decrementAction.name:
+        updateValue(value - 10);
+        break;
+      default:
+        break;
+    }
+  });
 
   return (
     <View
       accessible
-      accessibilityActions={[
-        { name: "increment", label: "increment" },
-        { name: "decrement", label: "decrement" },
-      ]}
+      accessibilityActions={[incrementAction, decrementAction]}
       accessibilityHint="Swipe up or down to adjust volume"
       accessibilityLabel="Volume"
       accessibilityRole="adjustable"
@@ -43,18 +61,7 @@ export function ControlSlider({
         max,
         now: value,
       }}
-      onAccessibilityAction={({ nativeEvent: { actionName } }) => {
-        switch (actionName) {
-          case "increment":
-            updateValue(value + 10);
-            break;
-          case "decrement":
-            updateValue(value - 10);
-            break;
-          default:
-            break;
-        }
-      }}
+      onAccessibilityAction={onAccessibilityAction}
       style={styles.volume}
     >
       <Icon name="volume-off" style={styles.iconVolumeLeft} />

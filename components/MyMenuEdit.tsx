@@ -6,9 +6,9 @@ import { useEvent } from "@/hooks";
 import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
 
-import type { Direction, MenuItem, MenuData, Position } from "@/types";
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
+import type { Direction, MenuItem, MenuData, Position } from "@/types";
 
 export let toggleAction = { name: "activate", label: "Toggle checked state" };
 export let upAction = { name: "moveUp", label: "Move item up" };
