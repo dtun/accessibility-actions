@@ -1,21 +1,14 @@
 import { menuData } from "@/data";
 import { render, screen, userEvent, fireEvent } from "@/test-utils";
 
-import {
-  MyMenuEdit,
-  toggleAction,
-  upAction,
-  downAction,
-  topAction,
-  bottomAction,
-} from "./MyMenuEdit";
+import { MyMenuEdit } from "./MyMenuEdit";
 
 // Events
-let toggleEvent = { actionName: toggleAction.name };
-let upEvent = { actionName: upAction.name };
-let downEvent = { actionName: downAction.name };
-let topEvent = { actionName: topAction.name };
-let bottomEvent = { actionName: bottomAction.name };
+let toggleEvent = { actionName: "activate" };
+let upEvent = { actionName: "up" };
+let downEvent = { actionName: "down" };
+let topEvent = { actionName: "top" };
+let bottomEvent = { actionName: "bottom" };
 // Spies
 let toggleMenuItem = jest.fn();
 let setMenuData = jest.fn();

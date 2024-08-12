@@ -10,11 +10,11 @@ import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
 import type { Direction, MenuItem, MenuData, Position } from "@/types";
 
-export let toggleAction = { name: "activate", label: "Toggle checked state" };
-export let upAction = { name: "moveUp", label: "Move item up" };
-export let downAction = { name: "moveDown", label: "Move item down" };
-export let topAction = { name: "moveTop", label: "Move item to top" };
-export let bottomAction = { name: "moveBottom", label: "Move item to bottom" };
+let toggleAction = { name: "activate", label: "Toggle checked state" };
+let upAction = { name: "up", label: "Move item up" };
+let downAction = { name: "down", label: "Move item down" };
+let topAction = { name: "top", label: "Move item to top" };
+let bottomAction = { name: "bottom", label: "Move item to bottom" };
 
 export function MyMenuEdit({
   menuData,
@@ -60,28 +60,10 @@ function RenderMenuItem({
   moveMenuItem: (id: string, direction: Direction | Position) => void;
 }) {
   let { isFirst, isLast } = getItemData(id, menuData);
-  let onAccessibilityAction = useEvent(function (e: AccessibilityActionEvent) {
-    let {
-      nativeEvent: { actionName },
-    } = e;
-
-    switch (actionName) {
-      case toggleAction.name:
-        toggleMenuItem(id);
-        break;
-      case upAction.name:
-        moveMenuItem(id, "up");
-        break;
-      case downAction.name:
-        moveMenuItem(id, "down");
-        break;
-      case topAction.name:
-        moveMenuItem(id, "top");
-        break;
-      case bottomAction.name:
-        moveMenuItem(id, "bottom");
-        break;
-    }
+  let onAccessibilityAction = useOnAccessibilityAction({
+    id,
+    moveMenuItem,
+    toggleMenuItem,
   });
 
   return (
@@ -121,6 +103,38 @@ function RenderMenuItem({
       <Icon color={red} name="menu" style={styles.iconRadio} />
     </Pressable>
   );
+}
+
+function useOnAccessibilityAction({
+  id,
+  moveMenuItem,
+  toggleMenuItem,
+}: {
+  id: string;
+  moveMenuItem: (id: string, direction: Direction | Position) => void;
+  toggleMenuItem: (id: string) => void;
+}) {
+  return useEvent(function (e: AccessibilityActionEvent) {
+    let actionName = e.nativeEvent.actionName;
+
+    switch (actionName) {
+      case toggleAction.name:
+        toggleMenuItem(id);
+        break;
+      case upAction.name:
+        moveMenuItem(id, "up");
+        break;
+      case downAction.name:
+        moveMenuItem(id, "down");
+        break;
+      case topAction.name:
+        moveMenuItem(id, "top");
+        break;
+      case bottomAction.name:
+        moveMenuItem(id, "bottom");
+        break;
+    }
+  });
 }
 
 function ItemSeparatorComponent() {
