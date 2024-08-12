@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
+import DraggableFlatList, {
+  ShadowDecorator,
+} from "react-native-draggable-flatlist";
 
 import { red } from "@/constants";
 import { useEvent } from "@/hooks";
@@ -35,12 +37,14 @@ export function MyMenuEdit({
       keyExtractor={({ id }) => id}
       onDragEnd={({ data }) => setMenuData(data)}
       renderItem={(params) => (
-        <RenderMenuItem
-          {...params}
-          menuData={menuData}
-          moveMenuItem={moveMenuItem}
-          toggleMenuItem={toggleMenuItem}
-        />
+        <ShadowDecorator>
+          <RenderMenuItem
+            {...params}
+            menuData={menuData}
+            moveMenuItem={moveMenuItem}
+            toggleMenuItem={toggleMenuItem}
+          />
+        </ShadowDecorator>
       )}
       style={styles.list}
     />
@@ -49,7 +53,6 @@ export function MyMenuEdit({
 
 function RenderMenuItem({
   drag: onLongPress,
-  isActive,
   item: { icon, id, checked, title },
   menuData,
   toggleMenuItem,
@@ -86,7 +89,6 @@ function RenderMenuItem({
         styles.listItem,
         isFirst && styles.listItemTop,
         isLast && styles.listItemBottom,
-        isActive && styles.listItemActive,
       ]}
     >
       <View style={styles.iconContainer}>
@@ -184,15 +186,6 @@ let styles = StyleSheet.create({
     alignSelf: "center",
     height: 48,
     padding: 4,
-  },
-  listItemActive: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
   },
   listItemTop: {
     borderTopLeftRadius: 8,
