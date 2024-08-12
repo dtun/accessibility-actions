@@ -1,11 +1,18 @@
 import { StyleSheet } from "react-native";
-import DraggableFlatList, { RenderItem } from "react-native-draggable-flatlist";
+import DraggableFlatList from "react-native-draggable-flatlist";
 
 import { red } from "@/constants";
+import { useEvent } from "@/hooks";
 import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
 
 import type { MenuItem, MenuData } from "@/types";
+import type { AccessibilityActionEvent } from "react-native";
+import type { RenderItemParams } from "react-native-draggable-flatlist";
+
+export let toggleAction = { name: "activate", label: "Toggle checked state" };
+export let upAction = { name: "moveUp", label: "Move item up" };
+export let downAction = { name: "moveDown", label: "Move item down" };
 
 export function MyMenuEdit({
   menuData,
@@ -18,62 +25,6 @@ export function MyMenuEdit({
   setMenuData: (data: MenuData) => void;
   toggleMenuItem: (id: string) => void;
 }) {
-  let renderItem: RenderItem<MenuItem> = ({
-    drag: onLongPress,
-    isActive,
-    item: { icon, id, checked, title },
-  }) => {
-    let { isFirst, isLast } = getItemData(id, menuData);
-
-    return (
-      <Pressable
-        accessible
-        accessibilityActions={[
-          { name: "activate", label: "Toggle checked state" },
-          { name: "moveUp", label: "Move item up" },
-          { name: "moveDown", label: "Move item down" },
-        ]}
-        accessibilityHint="Double tap to toggle, swipe up or down for more actions"
-        accessibilityLabel={title}
-        accessibilityState={{ checked }}
-        onAccessibilityAction={({ nativeEvent: { actionName } }) => {
-          switch (actionName) {
-            case "activate":
-              toggleMenuItem(id);
-              break;
-            case "moveUp":
-              moveMenuItem(id, "up");
-              break;
-            case "moveDown":
-              moveMenuItem(id, "down");
-              break;
-          }
-        }}
-        onLongPress={onLongPress}
-        onPress={() => toggleMenuItem(id)}
-        style={[
-          styles.listItem,
-          isFirst && styles.listItemTop,
-          isLast && styles.listItemBottom,
-          isActive && styles.listItemActive,
-        ]}
-      >
-        <View style={styles.iconContainer}>
-          <Icon
-            color={red}
-            name={checked ? "radio-button-on" : "radio-button-off"}
-            style={styles.iconRadio}
-          />
-          <Icon name={icon} style={styles.icon} />
-        </View>
-        <Text accessible={false} style={styles.title}>
-          {title}
-        </Text>
-        <Icon color={red} name="menu" style={styles.iconRadio} />
-      </Pressable>
-    );
-  };
-
   return (
     <DraggableFlatList
       contentContainerStyle={styles.listContent}
@@ -81,9 +32,80 @@ export function MyMenuEdit({
       ItemSeparatorComponent={ItemSeparatorComponent}
       keyExtractor={({ id }) => id}
       onDragEnd={({ data }) => setMenuData(data)}
-      renderItem={renderItem}
+      renderItem={(params) => (
+        <RenderMenuItem
+          {...params}
+          menuData={menuData}
+          moveMenuItem={moveMenuItem}
+          toggleMenuItem={toggleMenuItem}
+        />
+      )}
       style={styles.list}
     />
+  );
+}
+
+function RenderMenuItem({
+  drag: onLongPress,
+  isActive,
+  item: { icon, id, checked, title },
+  menuData,
+  toggleMenuItem,
+  moveMenuItem,
+}: RenderItemParams<MenuItem> & {
+  menuData: MenuData;
+  toggleMenuItem: (id: string) => void;
+  moveMenuItem: (id: string, direction: "up" | "down") => void;
+}) {
+  let { isFirst, isLast } = getItemData(id, menuData);
+  let onAccessibilityAction = useEvent(function (e: AccessibilityActionEvent) {
+    let {
+      nativeEvent: { actionName },
+    } = e;
+
+    switch (actionName) {
+      case toggleAction.name:
+        toggleMenuItem(id);
+        break;
+      case upAction.name:
+        moveMenuItem(id, "up");
+        break;
+      case downAction.name:
+        moveMenuItem(id, "down");
+        break;
+    }
+  });
+
+  return (
+    <Pressable
+      accessible
+      accessibilityActions={[toggleAction, upAction, downAction]}
+      accessibilityHint="Double tap to toggle, swipe up or down for more actions"
+      accessibilityLabel={title}
+      accessibilityState={{ checked }}
+      onAccessibilityAction={onAccessibilityAction}
+      onLongPress={onLongPress}
+      onPress={() => toggleMenuItem(id)}
+      style={[
+        styles.listItem,
+        isFirst && styles.listItemTop,
+        isLast && styles.listItemBottom,
+        isActive && styles.listItemActive,
+      ]}
+    >
+      <View style={styles.iconContainer}>
+        <Icon
+          color={red}
+          name={checked ? "radio-button-on" : "radio-button-off"}
+          style={styles.iconRadio}
+        />
+        <Icon name={icon} style={styles.icon} />
+      </View>
+      <Text accessible={false} style={styles.title}>
+        {title}
+      </Text>
+      <Icon color={red} name="menu" style={styles.iconRadio} />
+    </Pressable>
   );
 }
 

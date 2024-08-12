@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from "jotai";
 import { useFocusEffect } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useSharedValue } from "react-native-reanimated";
 
 import {
@@ -70,6 +70,19 @@ export function useSliderValues({
   };
 
   return { max, min, progress, updateValue };
+}
+
+export function useEvent<T extends (...args: any[]) => any>(onEvent: T) {
+  let onEventRef = useRef<T>(onEvent);
+
+  onEventRef.current = onEvent;
+
+  let staticOnEvent = useCallback((...args: any[]) => {
+    let currentOnEvent = onEventRef.current;
+    return currentOnEvent(...args);
+  }, []);
+
+  return staticOnEvent as T;
 }
 
 export { useColorScheme } from "react-native";
