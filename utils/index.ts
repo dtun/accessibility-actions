@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { menuData } from "@/data";
 
-import type { MenuData, MenuItem } from "@/types";
+import type { Direction, MenuData, MenuItem, Position } from "@/types";
 
 export function getIsLast(id: string, data: MenuItem[]) {
   return data.findIndex((d) => d.id === id) === data.length - 1;
@@ -59,10 +59,15 @@ export let toggleMenuItemAtom = atom(
 
 export let moveMenuItemAtom = atom(
   null, // read function (null because we don't need to read)
-  function (get, set, id: string, direction: "up" | "down") {
+  function (get, set, id: string, direction: Direction | Position) {
     let currentData = get(menuDataAtom);
     let index = currentData.findIndex((item) => item.id === id);
-    let newIndex = direction === "up" ? index - 1 : index + 1;
+
+    let newIndex = 0;
+    if (direction === "up") newIndex = index - 1;
+    if (direction === "down") newIndex = index + 1;
+    if (direction === "top") newIndex = 0;
+    if (direction === "bottom") newIndex = currentData.length - 1;
 
     if (newIndex < 0 || newIndex >= currentData.length) return;
 

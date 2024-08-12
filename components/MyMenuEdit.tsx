@@ -6,13 +6,15 @@ import { useEvent } from "@/hooks";
 import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
 
-import type { MenuItem, MenuData } from "@/types";
+import type { Direction, MenuItem, MenuData, Position } from "@/types";
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
 
 export let toggleAction = { name: "activate", label: "Toggle checked state" };
 export let upAction = { name: "moveUp", label: "Move item up" };
 export let downAction = { name: "moveDown", label: "Move item down" };
+export let topAction = { name: "moveTop", label: "Move item to top" };
+export let bottomAction = { name: "moveBottom", label: "Move item to bottom" };
 
 export function MyMenuEdit({
   menuData,
@@ -21,7 +23,7 @@ export function MyMenuEdit({
   toggleMenuItem,
 }: {
   menuData: MenuData;
-  moveMenuItem: (id: string, direction: "up" | "down") => void;
+  moveMenuItem: (id: string, direction: Direction | Position) => void;
   setMenuData: (data: MenuData) => void;
   toggleMenuItem: (id: string) => void;
 }) {
@@ -55,7 +57,7 @@ function RenderMenuItem({
 }: RenderItemParams<MenuItem> & {
   menuData: MenuData;
   toggleMenuItem: (id: string) => void;
-  moveMenuItem: (id: string, direction: "up" | "down") => void;
+  moveMenuItem: (id: string, direction: Direction | Position) => void;
 }) {
   let { isFirst, isLast } = getItemData(id, menuData);
   let onAccessibilityAction = useEvent(function (e: AccessibilityActionEvent) {
@@ -73,13 +75,25 @@ function RenderMenuItem({
       case downAction.name:
         moveMenuItem(id, "down");
         break;
+      case topAction.name:
+        moveMenuItem(id, "top");
+        break;
+      case bottomAction.name:
+        moveMenuItem(id, "bottom");
+        break;
     }
   });
 
   return (
     <Pressable
       accessible
-      accessibilityActions={[toggleAction, upAction, downAction]}
+      accessibilityActions={[
+        toggleAction,
+        upAction,
+        downAction,
+        topAction,
+        bottomAction,
+      ]}
       accessibilityHint="Double tap to toggle, swipe up or down for more actions"
       accessibilityLabel={title}
       accessibilityState={{ checked }}

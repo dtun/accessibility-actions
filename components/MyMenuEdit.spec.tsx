@@ -1,12 +1,21 @@
 import { menuData } from "@/data";
 import { render, screen, userEvent, fireEvent } from "@/test-utils";
 
-import { MyMenuEdit, toggleAction, upAction, downAction } from "./MyMenuEdit";
+import {
+  MyMenuEdit,
+  toggleAction,
+  upAction,
+  downAction,
+  topAction,
+  bottomAction,
+} from "./MyMenuEdit";
 
 // Events
 let toggleEvent = { actionName: toggleAction.name };
 let upEvent = { actionName: upAction.name };
 let downEvent = { actionName: downAction.name };
+let topEvent = { actionName: topAction.name };
+let bottomEvent = { actionName: bottomAction.name };
 // Spies
 let toggleMenuItem = jest.fn();
 let setMenuData = jest.fn();
@@ -83,6 +92,36 @@ describe("MyMenuEdit", () => {
       fireEvent(menuItem, "onAccessibilityAction", { nativeEvent: downEvent });
 
       expect(moveMenuItem).toHaveBeenCalledWith(item.id, "down");
+    }
+
+    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+  });
+
+  it("moves item to top with acessibility action", () => {
+    renderMyMenuEdit();
+
+    for (let item of menuData) {
+      let menuItem = screen.getByText(item.title);
+
+      fireEvent(menuItem, "onAccessibilityAction", { nativeEvent: topEvent });
+
+      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "top");
+    }
+
+    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+  });
+
+  it("moves item to bottom with acessibility action", () => {
+    renderMyMenuEdit();
+
+    for (let item of menuData) {
+      let menuItem = screen.getByText(item.title);
+
+      fireEvent(menuItem, "onAccessibilityAction", {
+        nativeEvent: bottomEvent,
+      });
+
+      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "bottom");
     }
 
     expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
