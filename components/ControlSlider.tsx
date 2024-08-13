@@ -10,19 +10,17 @@ import type { AccessibilityActionEvent } from "react-native";
 let incrementAction = { name: "increment", label: "increment" };
 let decrementAction = { name: "decrement", label: "decrement" };
 
-type ControlSliderProps = {
-  max?: number;
-  min?: number;
-  setValue: (value: number) => void;
-  value: number;
-};
-
 export function ControlSlider({
   max = 100,
   min = 0,
   setValue,
   value,
-}: ControlSliderProps) {
+}: {
+  max?: number;
+  min?: number;
+  setValue: (value: number) => void;
+  value: number;
+}) {
   let {
     max: maximumValue,
     min: minimumValue,
