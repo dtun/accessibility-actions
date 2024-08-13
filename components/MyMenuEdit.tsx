@@ -7,7 +7,7 @@ import { red } from "@/constants";
 import { useEvent } from "@/hooks";
 import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
-import { ItemSeparatorComponent } from "@/components/ItemSeparatorComponent";
+import { ItemSeparator } from "@/components/ItemSeparator";
 
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
@@ -34,7 +34,7 @@ export function MyMenuEdit({
     <DraggableFlatList
       contentContainerStyle={styles.listContent}
       data={menuData}
-      ItemSeparatorComponent={ItemSeparatorComponent}
+      ItemSeparatorComponent={ItemSeparator}
       keyExtractor={({ id }) => id}
       onDragEnd={({ data }) => setMenuData(data)}
       renderItem={(params) => (

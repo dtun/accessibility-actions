@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, ListRenderItem } from "react-native";
 
 import { getItemData } from "@/utils";
 import { Text, View, Icon } from "@/components/Themed";
-import { ItemSeparatorComponent } from "@/components/ItemSeparatorComponent";
+import { ItemSeparator } from "@/components/ItemSeparator";
 
 import type { MenuItem } from "@/types";
 
@@ -35,7 +35,7 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
     <FlatList
       contentContainerStyle={styles.listContent}
       data={menuData}
-      ItemSeparatorComponent={ItemSeparatorComponent}
+      ItemSeparatorComponent={ItemSeparator}
       ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
       renderItem={renderItem}

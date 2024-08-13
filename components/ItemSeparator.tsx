@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { View } from "@/components/Themed";
 
-export function ItemSeparatorComponent() {
+export function ItemSeparator() {
   return (
     <View style={styles.separatorContainer}>
       <View style={styles.separator} />
