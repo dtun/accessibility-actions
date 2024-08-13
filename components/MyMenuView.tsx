@@ -1,36 +1,13 @@
 import { Link } from "expo-router";
-import { StyleSheet, FlatList, ListRenderItem } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
 
-import { getItemData } from "@/utils";
-import { Text, View, Icon } from "@/components/Themed";
+import { Text, View } from "@/components/Themed";
 import { ItemSeparator } from "@/components/ItemSeparator";
+import { MyMenuViewItem } from "@/components/MyMenuViewItem";
 
 import type { MenuItem } from "@/types";
 
 export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
-  let renderItem: ListRenderItem<MenuItem> = ({
-    item: { icon, id, title },
-  }) => {
-    let { isFirst, isLast } = getItemData(id, menuData);
-
-    return (
-      <View
-        accessible
-        accessibilityLabel={title}
-        style={[
-          styles.listItem,
-          isFirst && styles.listItemTop,
-          isLast && styles.listItemBottom,
-        ]}
-      >
-        <View style={styles.iconContainer}>
-          <Icon name={icon} style={styles.icon} />
-        </View>
-        <Text style={styles.title}>{title}</Text>
-      </View>
-    );
-  };
-
   return (
     <FlatList
       contentContainerStyle={styles.listContent}
@@ -38,7 +15,9 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
       ItemSeparatorComponent={ItemSeparator}
       ListFooterComponent={ListFooterComponent}
       ListHeaderComponent={ListHeaderComponent}
-      renderItem={renderItem}
+      renderItem={({ item }) => (
+        <MyMenuViewItem item={item} menuData={menuData} />
+      )}
       style={styles.list}
     />
   );
@@ -86,36 +65,8 @@ let styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3, // for Android
   },
-  title: {
-    fontSize: 20,
-    flexGrow: 1,
-  },
   listContent: {
     width: "100%",
-  },
-  icon: {
-    padding: 8,
-  },
-  iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
-  listItem: {
-    alignItems: "center",
-    flexDirection: "row",
-    width: "96%",
-    alignSelf: "center",
-    height: 48,
-    padding: 4,
-  },
-  listItemTop: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-  listItemBottom: {
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
   },
   footer: {
     backgroundColor: "transparent",
