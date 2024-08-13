@@ -7,6 +7,7 @@ import { red } from "@/constants";
 import { useEvent } from "@/hooks";
 import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
+import { ItemSeparatorComponent } from "@/components/ItemSeparatorComponent";
 
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
@@ -139,14 +140,6 @@ function useOnAccessibilityAction({
   });
 }
 
-function ItemSeparatorComponent() {
-  return (
-    <View style={styles.separatorContainer}>
-      <View style={styles.separator} />
-    </View>
-  );
-}
-
 let styles = StyleSheet.create({
   list: {
     minWidth: "100%",
@@ -194,19 +187,5 @@ let styles = StyleSheet.create({
   listItemBottom: {
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-  },
-  separatorContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    height: 1,
-    alignSelf: "center",
-    width: "96%",
-  },
-  separator: {
-    width: "100%",
-    height: 1,
-    alignSelf: "center",
-    backgroundColor: "#e0e0e0",
   },
 });
