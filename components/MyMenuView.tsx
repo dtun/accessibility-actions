@@ -1,6 +1,7 @@
 import { Link } from "expo-router";
 import { StyleSheet, FlatList } from "react-native";
 
+import { getItemData } from "@/utils";
 import { Text, View } from "@/components/Themed";
 import { ItemSeparator } from "@/components/ItemSeparator";
 import { MyMenuViewItem } from "@/components/MyMenuViewItem";
@@ -23,7 +24,7 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
         </View>
       }
       renderItem={({ item }) => (
-        <MyMenuViewItem item={item} menuData={menuData} />
+        <MyMenuViewItem item={item} meta={getItemData(item.id, menuData)} />
       )}
       style={styles.list}
     />

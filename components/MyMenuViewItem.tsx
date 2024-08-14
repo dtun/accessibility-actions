@@ -1,19 +1,16 @@
 import { StyleSheet } from "react-native";
 
-import { getItemData } from "@/utils";
 import { Text, View, Icon } from "@/components/Themed";
 
-import type { MenuData, MenuItem } from "@/types";
+import type { MenuItemMeta, MenuItem } from "@/types";
 
 export function MyMenuViewItem({
-  item: { icon, id, title },
-  menuData,
+  item: { icon, title },
+  meta: { isFirst, isLast },
 }: {
   item: MenuItem;
-  menuData: MenuData;
+  meta: MenuItemMeta;
 }) {
-  let { isFirst, isLast } = getItemData(id, menuData);
-
   return (
     <View
       accessible
