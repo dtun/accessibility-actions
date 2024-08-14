@@ -11,10 +11,10 @@ function Edit() {
   let { setOptions } = useNavigation();
   let {
     data: menuData,
-    setMenuData,
-    toggleMenuItem,
-    saveMenuData,
     moveMenuItem,
+    setMenuData,
+    saveMenuData,
+    toggleMenuItem,
   } = useData();
 
   useEffect(
@@ -36,9 +36,9 @@ function Edit() {
       <ListContainer style={styles.container}>
         <MyMenuEdit
           menuData={menuData}
+          moveMenuItem={moveMenuItem}
           setMenuData={setMenuData}
           toggleMenuItem={toggleMenuItem}
-          moveMenuItem={moveMenuItem}
         />
       </ListContainer>
     </>
