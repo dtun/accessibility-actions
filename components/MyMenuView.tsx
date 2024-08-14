@@ -13,29 +13,21 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
       contentContainerStyle={styles.listContent}
       data={menuData}
       ItemSeparatorComponent={ItemSeparator}
-      ListFooterComponent={ListFooterComponent}
-      ListHeaderComponent={ListHeaderComponent}
+      ListFooterComponent={<View style={styles.footer} />}
+      ListHeaderComponent={
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>My Music</Text>
+          <Link href="/edit">
+            <Text>Edit</Text>
+          </Link>
+        </View>
+      }
       renderItem={({ item }) => (
         <MyMenuViewItem item={item} menuData={menuData} />
       )}
       style={styles.list}
     />
   );
-}
-
-function ListHeaderComponent() {
-  return (
-    <View style={styles.header}>
-      <Text style={styles.headerTitle}>My Music</Text>
-      <Link href="/edit">
-        <Text>Edit</Text>
-      </Link>
-    </View>
-  );
-}
-
-function ListFooterComponent() {
-  return <View style={styles.footer}></View>;
 }
 
 let styles = StyleSheet.create({
