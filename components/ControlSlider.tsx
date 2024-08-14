@@ -54,7 +54,7 @@ export function ControlSlider({
         minimumValue={minimumValue}
         onSlidingComplete={updateValue}
         progress={progress}
-        snapToStep
+        renderBubble={() => null}
         style={styles.slider}
         theme={sliderTheme}
       />
