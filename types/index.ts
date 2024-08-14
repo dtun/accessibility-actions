@@ -8,6 +8,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { SharedValue } from "react-native-reanimated";
 
+import { getItemData } from "@/utils";
+
 export type SharedNumber = SharedValue<number>;
 
 export type IconName = keyof typeof Ionicons.glyphMap;
@@ -20,6 +22,8 @@ export type MenuItem = {
 };
 
 export type MenuData = MenuItem[];
+
+export type MenuItemMeta = ReturnType<typeof getItemData>;
 
 export type ThemeProps = {
   lightColor?: string;

@@ -3,6 +3,7 @@ import DraggableFlatList, {
   ShadowDecorator,
 } from "react-native-draggable-flatlist";
 
+import { getItemData } from "@/utils";
 import { ItemSeparator } from "@/components/ItemSeparator";
 import { MyMenuEditItem } from "@/components/MyMenuEditItem";
 
@@ -30,7 +31,7 @@ export function MyMenuEdit({
         <ShadowDecorator>
           <MyMenuEditItem
             {...params}
-            menuData={menuData}
+            meta={getItemData(params.item.id, menuData)}
             moveMenuItem={moveMenuItem}
             toggleMenuItem={toggleMenuItem}
           />

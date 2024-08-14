@@ -2,12 +2,11 @@ import { StyleSheet } from "react-native";
 
 import { red } from "@/constants";
 import { useEvent } from "@/hooks";
-import { getItemData } from "@/utils";
 import { Text, Icon, View, Pressable } from "@/components/Themed";
 
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
-import type { Direction, MenuItem, MenuData, Position } from "@/types";
+import type { Direction, MenuItem, MenuItemMeta, Position } from "@/types";
 
 let toggleAction = { name: "activate", label: "Toggle checked state" };
 let upAction = { name: "up", label: "Move item up" };
@@ -18,15 +17,14 @@ let bottomAction = { name: "bottom", label: "Move item to bottom" };
 export function MyMenuEditItem({
   drag: onLongPress,
   item: { icon, id, checked, title },
-  menuData,
+  meta: { isFirst, isLast },
   moveMenuItem,
   toggleMenuItem,
 }: RenderItemParams<MenuItem> & {
-  menuData: MenuData;
+  meta: MenuItemMeta;
   moveMenuItem: (id: string, direction: Direction | Position) => void;
   toggleMenuItem: (id: string) => void;
 }) {
-  let { isFirst, isLast } = getItemData(id, menuData);
   let onAccessibilityAction = useOnAccessibilityAction({
     id,
     moveMenuItem,
