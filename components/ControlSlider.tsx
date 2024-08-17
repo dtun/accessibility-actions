@@ -33,7 +33,7 @@ export function ControlSlider({
     value,
   });
   let onAccessibilityAction = useOnAccessibilityAction({
-    updateValue,
+    setValue,
     value,
   });
 
@@ -64,10 +64,10 @@ export function ControlSlider({
 }
 
 function useOnAccessibilityAction({
-  updateValue,
+  setValue,
   value,
 }: {
-  updateValue: (value: number) => void;
+  setValue: (value: number) => void;
   value: number;
 }) {
   return useEvent(function (e: AccessibilityActionEvent) {
@@ -75,10 +75,10 @@ function useOnAccessibilityAction({
 
     switch (actionName) {
       case incrementAction.name:
-        updateValue(value + 10);
+        setValue(value + 10);
         break;
       case decrementAction.name:
-        updateValue(value - 10);
+        setValue(value - 10);
         break;
       default:
         break;
