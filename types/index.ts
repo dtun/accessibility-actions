@@ -48,3 +48,5 @@ export type Direction = "up" | "down";
 export type Position = "top" | "bottom";
 
 export type Toggle = "toggle";
+
+export type Operation = Direction | Position | Toggle;

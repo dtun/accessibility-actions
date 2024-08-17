@@ -7,7 +7,7 @@ import { getItemData } from "@/utils";
 import { ItemSeparator } from "@/components/ItemSeparator";
 import { MyMenuEditItem } from "@/components/MyMenuEditItem";
 
-import type { Direction, MenuData, Position, Toggle } from "@/types";
+import type { MenuData, Operation } from "@/types";
 
 export function MyMenuEdit({
   menuData,
@@ -17,7 +17,7 @@ export function MyMenuEdit({
   menuData: MenuData;
 
   setMenuData: (data: MenuData) => void;
-  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
+  setMenuItem: (id: string, operation: Operation) => void;
 }) {
   return (
     <DraggableFlatList

@@ -6,13 +6,7 @@ import { Text, Icon, View, Pressable } from "@/components/Themed";
 
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
-import type {
-  Direction,
-  MenuItem,
-  MenuItemMeta,
-  Position,
-  Toggle,
-} from "@/types";
+import type { MenuItem, MenuItemMeta, Operation } from "@/types";
 
 let toggleAction = { name: "activate", label: "Toggle checked state" };
 let upAction = { name: "up", label: "Move item up" };
@@ -27,7 +21,7 @@ export function MyMenuEditItem({
   setMenuItem,
 }: RenderItemParams<MenuItem> & {
   meta: MenuItemMeta;
-  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
+  setMenuItem: (id: string, operation: Operation) => void;
 }) {
   let onAccessibilityAction = useOnAccessibilityAction({
     id,
@@ -77,7 +71,7 @@ function useOnAccessibilityAction({
   setMenuItem,
 }: {
   id: string;
-  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
+  setMenuItem: (id: string, operation: Operation) => void;
 }) {
   return useEvent(function (e: AccessibilityActionEvent) {
     let actionName = e.nativeEvent.actionName;
