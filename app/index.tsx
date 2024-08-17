@@ -9,14 +9,19 @@ import { MyMenuView } from "@/components/MyMenuView";
 function Main() {
   let { data: menuData } = useData();
   let { top, bottom } = useSafeAreaInsets();
-  let { ...playingState } = usePlayingState();
+  let { level, playing, setLevel, togglePlaying } = usePlayingState();
 
   return (
     <ListContainer
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
     >
       <MyMenuView menuData={menuData.filter((i) => i.checked)} />
-      <Controls {...playingState} />
+      <Controls
+        level={level}
+        playing={playing}
+        setLevel={setLevel}
+        togglePlaying={togglePlaying}
+      />
     </ListContainer>
   );
 }
