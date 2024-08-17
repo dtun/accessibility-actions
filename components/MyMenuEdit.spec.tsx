@@ -10,17 +10,15 @@ let downEvent = { actionName: "down" };
 let topEvent = { actionName: "top" };
 let bottomEvent = { actionName: "bottom" };
 // Spies
-let toggleMenuItem = jest.fn();
 let setMenuData = jest.fn();
-let moveMenuItem = jest.fn();
+let setMenuItem = jest.fn();
 
 function renderMyMenuEdit() {
   return render(
     <MyMenuEdit
       menuData={menuData}
-      moveMenuItem={moveMenuItem}
+      setMenuItem={setMenuItem}
       setMenuData={setMenuData}
-      toggleMenuItem={toggleMenuItem}
     />
   );
 }
@@ -40,10 +38,10 @@ describe("MyMenuEdit", () => {
     for (let item of menuData) {
       await userEvent.press(screen.getByText(item.title));
 
-      expect(toggleMenuItem).toHaveBeenCalledWith(item.id);
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "toggle");
     }
 
-    expect(toggleMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 
   it("toggles item with acessibility action", () => {
@@ -56,10 +54,10 @@ describe("MyMenuEdit", () => {
         nativeEvent: toggleEvent,
       });
 
-      expect(toggleMenuItem).toHaveBeenCalledWith(item.id);
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "toggle");
     }
 
-    expect(toggleMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 
   it("moves item up with acessibility action", () => {
@@ -70,10 +68,10 @@ describe("MyMenuEdit", () => {
 
       fireEvent(menuItem, "onAccessibilityAction", { nativeEvent: upEvent });
 
-      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "up");
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "up");
     }
 
-    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 
   it("moves item down with acessibility action", () => {
@@ -84,10 +82,10 @@ describe("MyMenuEdit", () => {
 
       fireEvent(menuItem, "onAccessibilityAction", { nativeEvent: downEvent });
 
-      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "down");
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "down");
     }
 
-    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 
   it("moves item to top with acessibility action", () => {
@@ -98,10 +96,10 @@ describe("MyMenuEdit", () => {
 
       fireEvent(menuItem, "onAccessibilityAction", { nativeEvent: topEvent });
 
-      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "top");
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "top");
     }
 
-    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 
   it("moves item to bottom with acessibility action", () => {
@@ -114,9 +112,9 @@ describe("MyMenuEdit", () => {
         nativeEvent: bottomEvent,
       });
 
-      expect(moveMenuItem).toHaveBeenCalledWith(item.id, "bottom");
+      expect(setMenuItem).toHaveBeenCalledWith(item.id, "bottom");
     }
 
-    expect(moveMenuItem).toHaveBeenCalledTimes(menuData.length);
+    expect(setMenuItem).toHaveBeenCalledTimes(menuData.length);
   });
 });

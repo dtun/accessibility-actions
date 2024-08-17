@@ -6,7 +6,13 @@ import { Text, Icon, View, Pressable } from "@/components/Themed";
 
 import type { AccessibilityActionEvent } from "react-native";
 import type { RenderItemParams } from "react-native-draggable-flatlist";
-import type { Direction, MenuItem, MenuItemMeta, Position } from "@/types";
+import type {
+  Direction,
+  MenuItem,
+  MenuItemMeta,
+  Position,
+  Toggle,
+} from "@/types";
 
 let toggleAction = { name: "activate", label: "Toggle checked state" };
 let upAction = { name: "up", label: "Move item up" };
@@ -18,17 +24,14 @@ export function MyMenuEditItem({
   drag: onLongPress,
   item: { icon, id, checked, title },
   meta: { isFirst, isLast },
-  moveMenuItem,
-  toggleMenuItem,
+  setMenuItem,
 }: RenderItemParams<MenuItem> & {
   meta: MenuItemMeta;
-  moveMenuItem: (id: string, direction: Direction | Position) => void;
-  toggleMenuItem: (id: string) => void;
+  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
 }) {
   let onAccessibilityAction = useOnAccessibilityAction({
     id,
-    moveMenuItem,
-    toggleMenuItem,
+    setMenuItem,
   });
 
   return (
@@ -46,7 +49,7 @@ export function MyMenuEditItem({
       accessibilityState={{ checked }}
       onAccessibilityAction={onAccessibilityAction}
       onLongPress={onLongPress}
-      onPress={() => toggleMenuItem(id)}
+      onPress={() => setMenuItem(id, "toggle")}
       style={[
         styles.listItem,
         isFirst && styles.listItemTop,
@@ -71,31 +74,29 @@ export function MyMenuEditItem({
 
 function useOnAccessibilityAction({
   id,
-  moveMenuItem,
-  toggleMenuItem,
+  setMenuItem,
 }: {
   id: string;
-  moveMenuItem: (id: string, direction: Direction | Position) => void;
-  toggleMenuItem: (id: string) => void;
+  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
 }) {
   return useEvent(function (e: AccessibilityActionEvent) {
     let actionName = e.nativeEvent.actionName;
 
     switch (actionName) {
       case toggleAction.name:
-        toggleMenuItem(id);
+        setMenuItem(id, "toggle");
         break;
       case upAction.name:
-        moveMenuItem(id, "up");
+        setMenuItem(id, "up");
         break;
       case downAction.name:
-        moveMenuItem(id, "down");
+        setMenuItem(id, "down");
         break;
       case topAction.name:
-        moveMenuItem(id, "top");
+        setMenuItem(id, "top");
         break;
       case bottomAction.name:
-        moveMenuItem(id, "bottom");
+        setMenuItem(id, "bottom");
         break;
     }
   });

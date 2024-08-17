@@ -5,11 +5,10 @@ import { useSharedValue } from "react-native-reanimated";
 
 import {
   menuDataAtom,
-  toggleMenuItemAtom,
   setMenuDataAtom,
   loadDataAtom,
   saveMenuDataAtom,
-  moveMenuItemAtom,
+  setMenuItemAtom,
 } from "@/utils";
 
 export function useLoadData() {
@@ -29,12 +28,11 @@ export function useData() {
   let [data] = useAtom(menuDataAtom);
   let saveMenuData = useSetAtom(saveMenuDataAtom);
   let setMenuData = useSetAtom(setMenuDataAtom);
-  let toggleMenuItem = useSetAtom(toggleMenuItemAtom);
-  let moveMenuItem = useSetAtom(moveMenuItemAtom);
+  let setMenuItem = useSetAtom(setMenuItemAtom);
 
   useLoadData();
 
-  return { data, setMenuData, toggleMenuItem, saveMenuData, moveMenuItem };
+  return { data, setMenuData, saveMenuData, setMenuItem };
 }
 
 export function usePlayingState() {

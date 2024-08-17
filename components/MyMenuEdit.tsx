@@ -7,18 +7,17 @@ import { getItemData } from "@/utils";
 import { ItemSeparator } from "@/components/ItemSeparator";
 import { MyMenuEditItem } from "@/components/MyMenuEditItem";
 
-import type { Direction, MenuData, Position } from "@/types";
+import type { Direction, MenuData, Position, Toggle } from "@/types";
 
 export function MyMenuEdit({
   menuData,
-  moveMenuItem,
   setMenuData,
-  toggleMenuItem,
+  setMenuItem,
 }: {
   menuData: MenuData;
-  moveMenuItem: (id: string, direction: Direction | Position) => void;
+
   setMenuData: (data: MenuData) => void;
-  toggleMenuItem: (id: string) => void;
+  setMenuItem: (id: string, operation: Direction | Position | Toggle) => void;
 }) {
   return (
     <DraggableFlatList
@@ -32,8 +31,7 @@ export function MyMenuEdit({
           <MyMenuEditItem
             {...params}
             meta={getItemData(params.item.id, menuData)}
-            moveMenuItem={moveMenuItem}
-            toggleMenuItem={toggleMenuItem}
+            setMenuItem={setMenuItem}
           />
         </ShadowDecorator>
       )}

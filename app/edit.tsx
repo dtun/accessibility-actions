@@ -9,13 +9,7 @@ import { ListContainer, Text } from "@/components/Themed";
 
 function Edit() {
   let { setOptions } = useNavigation();
-  let {
-    data: menuData,
-    moveMenuItem,
-    setMenuData,
-    saveMenuData,
-    toggleMenuItem,
-  } = useData();
+  let { data: menuData, setMenuData, saveMenuData, setMenuItem } = useData();
 
   useEffect(
     function () {
@@ -36,9 +30,8 @@ function Edit() {
       <ListContainer style={styles.container}>
         <MyMenuEdit
           menuData={menuData}
-          moveMenuItem={moveMenuItem}
           setMenuData={setMenuData}
-          toggleMenuItem={toggleMenuItem}
+          setMenuItem={setMenuItem}
         />
       </ListContainer>
     </>

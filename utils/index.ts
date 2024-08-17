@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { menuData } from "@/data";
 
-import type { Direction, MenuData, MenuItem, Position } from "@/types";
+import type { Direction, MenuData, MenuItem, Position, Toggle } from "@/types";
 
 export function getIsLast(id: string, data: MenuItem[]) {
   return data.findIndex((d) => d.id === id) === data.length - 1;
@@ -57,21 +57,28 @@ export let toggleMenuItemAtom = atom(
   }
 );
 
-export let moveMenuItemAtom = atom(
+export let setMenuItemAtom = atom(
   null, // read function (null because we don't need to read)
-  function (get, set, id: string, direction: Direction | Position) {
+  function (get, set, id: string, operation: Direction | Position | Toggle) {
     let currentData = get(menuDataAtom);
     let index = currentData.findIndex((item) => item.id === id);
+    let newData = [...currentData];
+
+    if (operation === "toggle") {
+      newData[index].checked = !newData[index].checked;
+
+      set(menuDataAtom, newData);
+
+      return; // No need to continue
+    }
 
     let newIndex = 0;
-    if (direction === "up") newIndex = index - 1;
-    if (direction === "down") newIndex = index + 1;
-    if (direction === "top") newIndex = 0;
-    if (direction === "bottom") newIndex = currentData.length - 1;
+    if (operation === "up") newIndex = index - 1;
+    if (operation === "down") newIndex = index + 1;
+    if (operation === "top") newIndex = 0;
+    if (operation === "bottom") newIndex = currentData.length - 1;
 
     if (newIndex < 0 || newIndex >= currentData.length) return;
-
-    let newData = [...currentData];
 
     newData.splice(index, 1);
     newData.splice(newIndex, 0, currentData[index]);

@@ -46,3 +46,5 @@ export type IconProps = ThemeProps & React.ComponentProps<typeof Ionicons>;
 export type Direction = "up" | "down";
 
 export type Position = "top" | "bottom";
+
+export type Toggle = "toggle";
