@@ -8,7 +8,13 @@ import { MyMenuViewItem } from "@/components/MyMenuViewItem";
 
 import type { MenuItem } from "@/types";
 
-export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
+export function MyMenuView({
+  headerTitle,
+  menuData,
+}: {
+  headerTitle: string;
+  menuData: MenuItem[];
+}) {
   return (
     <FlatList
       contentContainerStyle={styles.listContent}
@@ -17,7 +23,7 @@ export function MyMenuView({ menuData }: { menuData: MenuItem[] }) {
       ListFooterComponent={<View style={styles.footer} />}
       ListHeaderComponent={
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Music</Text>
+          <Text style={styles.headerTitle}>{headerTitle}</Text>
           <Link href="/edit">
             <Text>Edit</Text>
           </Link>

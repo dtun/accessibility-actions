@@ -15,7 +15,10 @@ function Main() {
     <ListContainer
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
     >
-      <MyMenuView menuData={menuData.filter((i) => i.checked)} />
+      <MyMenuView
+        headerTitle="My Music"
+        menuData={menuData.filter((i) => i.checked)}
+      />
       <Controls
         level={level}
         playing={playing}
