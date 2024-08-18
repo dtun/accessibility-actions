@@ -13,10 +13,10 @@ This app demonstrates various accessibility features in React Native, showcasing
 
 These instructions will help you set up the project on your local machine for development purposes.
 
-### Prerequisites
+### System Requirements
 
-- Node.js (version 12 or newer)
-- Expo CLI (`npm install -g expo-cli`)
+- Node.js
+- Expo CLI
 
 ### Installation
 
@@ -32,24 +32,25 @@ These instructions will help you set up the project on your local machine for de
 1. Start the Expo development server:
 
 ```
-   npx expo
+   npm run start
 ```
 
 ## Exploring Accessibility Features
 
 This app demonstrates several key accessibility features, including:
 
-- VoiceOver and TalkBack support
+- VoiceOver support on iOS
+- TalkBack support on Android
 - Dynamic font scaling
-- Proper use of accessibility labels and hints
+- Accessibility labels and hints
 
 Explore the app to see these features in action and refer to the code for implementation details.
 
 ## Contributing
 
-We welcome contributions to improve the app or add more accessibility demonstrations. Please feel free to submit pull requests or open issues to discuss potential improvements.
+Contributions are welcome to improve the app or add more accessibility demonstrations. Please feel free to submit pull requests or open issues to discuss potential improvements.
 
-## Acknowledgments
+## Thank you
 
 - React Native team for providing robust accessibility APIs
 - Expo for simplifying React Native development
