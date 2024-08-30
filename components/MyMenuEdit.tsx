@@ -15,7 +15,6 @@ export function MyMenuEdit({
   setMenuItem,
 }: {
   menuData: MenuData;
-
   setMenuData: (data: MenuData) => void;
   setMenuItem: (id: string, operation: Operation) => void;
 }) {
